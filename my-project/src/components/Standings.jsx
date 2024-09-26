@@ -4,13 +4,20 @@ import "../SideBar.css"; // Import custom CSS file for scrollbar styling
 import { useEffect } from "react";
 import { useContext } from "react";
 
+
+
+/**
+ * A sidebar that displays all the races withen a selected year, includes results and standings buttons.
+ * 
+ * @returns Sidebar component, displays on left side of view.
+ */
 const Standings = (props) => {
   const { raceID } = useContext(AppContext);
   const { selectedRace } = useContext(AppContext);
   const { conStanding, setConStanding } = useContext(AppContext);
   const { driverStanding, setDriverStanding } = useContext(AppContext);
   const { setshowCard } = useContext(AppContext);
-  const { setConstID } = useContext(AppContext);
+  const { setConstID, setDriverID } = useContext(AppContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +27,6 @@ const Standings = (props) => {
           .select("points, position, wins, constructors(*)")
           .eq("raceId", raceID)
           .order("position", { ascending: true });
-
         let sortedData = data.sort((a, b) => a.position - b.position);
         setConStanding(sortedData);
       } catch (error) {
@@ -39,7 +45,6 @@ const Standings = (props) => {
           .select(" points, position, wins ,drivers(*)")
           .eq("raceId", raceID)
           .order("position", { ascending: true });
-        console.log(data);
         setDriverStanding(data);
       } catch (error) {
         console.error("Error fetching data:", error.message);
@@ -50,7 +55,7 @@ const Standings = (props) => {
   }, [raceID]);
 
   return (
-    <div className="mr-[5%] ml-[2%] flex justify-left h-[83vh] w-[58%] border-2 bg-white shadow-md rounded-md border-black px-2">
+    <div className="mr-[5%] ml-[2%] flex justify-left h-[83vh] w-[58%] border-2 bg-white shadow-xl rounded-md border-gray-200 px-2">
       <div className="w-full h-full flex flex-col">
         <h1 className="text-3xl pt-2 text-center text-gray-700 uppercase tracking-wider font-semibold mb-2">
           Standings
@@ -83,7 +88,11 @@ const Standings = (props) => {
                     <tr key={index} className="border-b hover:bg-gray-100">
                       <td className="pl-1 py-2">{result.position}</td>
                       <td className="pl-1 py-2">
-                        <span className=" underline hover:cursor-pointer hover:text-stone-500">
+                        <span className=" underline hover:cursor-pointer hover:text-stone-500"
+                          onClick={() => {
+                            setshowCard("driver");
+                            setDriverID(result.drivers.driverId);
+                          }}>
                           {result.drivers.forename +
                             " " +
                             result.drivers.surname}

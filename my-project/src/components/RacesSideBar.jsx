@@ -6,6 +6,13 @@ import { GiRaceCar } from "react-icons/gi";
 import "../SideBar.css";
 import LoadingSpinner from "./LoadingSpinner";
 
+
+
+/**
+ * A sidebar that displays all the races withen a selected year, includes results and standings buttons.
+ * 
+ * @returns Sidebar component, displays on left side of view.
+ */
 const SideBar = (props) => {
   const { raceData, setraceData } = useContext(AppContext);
   const { year } = useContext(AppContext);
@@ -14,10 +21,10 @@ const SideBar = (props) => {
   const { showStanding, setShowStanding } = useContext(AppContext);
   const { setSelectedRace } = useContext(AppContext);
   const { isLoading, setIsLoading } = useContext(AppContext);
-  
 
 
 
+  // get all the races data in a selected year, also gets circuit data to display in race info section
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,7 +41,7 @@ const SideBar = (props) => {
       } catch (error) {
         console.error("Error fetching data:", error.message);
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     };
     fetchData();

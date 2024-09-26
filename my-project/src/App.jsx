@@ -5,9 +5,14 @@ import { AppContext } from "./context.jsx";
 import SideBar from "./components/RacesSideBar.jsx";
 import HomeView1 from "./components/HomeView1.jsx";
 
+
+/** 
+* Check login state and directs to dashboard or login depending on state
+*
+* @return login or dashboard component
+*/
 function App(props) {
   const { isLoggedIn } = useContext(AppContext)
-
 
   if (isLoggedIn) {
     return (
